@@ -5,7 +5,7 @@ import threading
 
 app = Flask(__name__)
 
-DATABASE = 'database/survey.db'
+DATABASE = '/database/survey.db'
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database """

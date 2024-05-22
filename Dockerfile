@@ -8,6 +8,7 @@ WORKDIR /app
 COPY app.py .
 COPY static/ ./static
 COPY templates/ ./templates
+COPY database/ ./database
 
 # Install Python dependencies from requirements.txt
 COPY requirements.txt .

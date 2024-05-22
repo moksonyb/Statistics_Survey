@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <form id="student-form">
+            <label for="student-number">Enter your student number:</label>
+            <input type="text" id="student-number" name="student-number" required>
+            <button type="submit">Submit</button>
+        </form>
+        <div id="survey" style="display: none;">
+            <button id="red-button" class="red-button" onclick="handleButtonClick()">BUTTON</button>
+            <p id="message"></p>
+        </div>
+    </div>
+    <script>
+        const form = document.getElementById('student-form');
+        const survey = document.getElementById('survey');
+        const redButton = document.getElementById('red-button');
+        const message = document.getElementById('message');
+        let studentNumber;
+        let clickCount = 0;
+        let timerStarted = false;
+        let timer;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            studentNumber = document.getElementById('student-number').value;
+            const response = await fetch('/start', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ studentNumber }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                redButton.textContent = result.buttonType === "PRESS" ? "PRESS THE BIG RED BUTTON" : "DON'T PRESS THE BIG RED BUTTON";
+                form.style.display = 'none';
+                survey.style.display = 'block';
+            } else {
+                alert(result.message);
+            }
+        });
+
+        async function handleButtonClick() {
+            if (!timerStarted) {
+                timerStarted = true;
+                timer = setTimeout(endSurvey, 10000);
+            }
+            clickCount++;
+            const response = await fetch('/click', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ studentNumber }),
+            });
+            const result = await response.json();
+            if (result.success) {
+                message.textContent = `Button clicked ${result.clickCount} times.`;
+            } else {
+                alert(result.message);
+            }
+        }
+
+        function endSurvey() {
+            redButton.disabled = true;
+            message.textContent += ' Survey ended.';
+        }
+    </script>
+</body>
+</html>

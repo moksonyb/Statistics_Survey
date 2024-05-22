@@ -6,6 +6,8 @@ WORKDIR /app
 
 # Copy your application code into the container
 COPY app.py .
+COPY static/ ./static
+COPY templates/ ./templates
 
 # Install Python dependencies from requirements.txt
 COPY requirements.txt .

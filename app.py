@@ -5,7 +5,7 @@ import threading
 
 app = Flask(__name__)
 
-DATABASE = 'survey.db'
+DATABASE = 'database/survey.db'
 
 def create_connection(db_file):
     """ create a database connection to the SQLite database """
@@ -81,4 +81,4 @@ def handle_click():
 
 if __name__ == '__main__':
     create_table()
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=6000, debug=False)

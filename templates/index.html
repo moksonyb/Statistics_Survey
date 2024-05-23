@@ -15,15 +15,17 @@
         </form>
     </div>
     <div id="survey" style="display: none;">
+        <p id="button-text" class="button-text">BUTTON</p>
         <div id="red-button" class="red-button" onclick="handleButtonClick()">
-            <span class="button-text">BUTTON</span>
         </div>
         <p id="message"></p>
     </div>
+    
     <script>
         const form = document.getElementById('student-form');
         const survey = document.getElementById('survey');
         const redButton = document.getElementById('red-button');
+        const buttonText = document.getElementById('button-text');
         const message = document.getElementById('message');
         const container = document.querySelector('.container'); // Added container element reference
         let studentNumber;
@@ -43,8 +45,8 @@
             });
             const result = await response.json();
             if (result.success) {
-                const buttonText = result.buttonType === "PRESS" ? "PRESS THE BIG RED BUTTON" : "DON'T PRESS THE BIG RED BUTTON";
-                redButton.querySelector('.button-text').textContent = buttonText;
+                const text = result.buttonType === "PRESS" ? "PRESS THE BIG RED BUTTON" : "DON'T PRESS THE BIG RED BUTTON";
+                buttonText.textContent = text;
                 form.style.display = 'none';
                 container.style.display = 'none'; // Hide the container
                 survey.style.display = 'block';
@@ -68,7 +70,6 @@
             });
             const result = await response.json();
             if (result.success) {
-                //message.textContent = `Button clicked ${result.clickCount} times.`;
             } else {
                 alert(result.message);
             }

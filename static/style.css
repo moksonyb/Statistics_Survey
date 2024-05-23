@@ -16,19 +16,90 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+
 .red-button {
-    background-color: red;
-    color: white;
-    border: none;
-    width: 50vh;
-    height: 50vh;
-    font-size: 5vh;
+    box-shadow: 0px 15px 0 20px #352d2d, 0px 40px 0 30px #000;
     cursor: pointer;
+    background-color: #c0392b;
+    color: white;
+    position: absolute;
     border-radius: 50%;
-    border: 1vh solid black;
+    font-weight: 15vh;
+    top: 50%;
+    left: 50%;
+    width: 50vh;
+    height: 8.33vh;
+    transform: translateX(-50%);
+    pointer-events: all;
+    user-select: none;
+}
+.red-button::before {
+    content: '';
+    z-index: 1;
+    border-radius: 50%;
+    background-color: #e74c3c;
+    position: absolute;
+    bottom: 100%;
+    left: 0%;
+    transition: bottom 0.1s;
+    width: 50vh;
+    height: 8.33vh;
+    pointer-events: none;
+}
+.red-button::after {
+    content: '';
+    background-color: #c0392b;
+    position: absolute;
+    bottom: 50%;
+    left: 0%;
+    width: 50vh;
+    height: 8.33vh;
+    transition: height 0.1s;
+    pointer-events: none;
 }
 
-.red-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
+.red-button.red-button.disabled::before {
+    content: '';
+    z-index: 1;
+    border-radius: 50%;
+    background-color: #b0b0b0;
+    position: absolute;
+    bottom: 100%;
+    left: 0%;
+    transition: bottom 0.1s;
+    width: 50vh;
+    height: 8.33vh;
 }
+.red-button.red-button.disabled::after {
+    content: '';
+    background-color: #ccc;
+    position: absolute;
+    bottom: 50%;
+    left: 0%;
+    width: 50vh;
+    height: 8.33vh;
+    transition: height 0.1s;
+}
+.red-button:active::before {
+    bottom: 10%;
+}
+.red-button:active::after {
+    height: 10%;
+}
+
+.red-button.disabled {
+    cursor: not-allowed;
+    background-color: #ccc;
+    pointer-events: none;
+    animation: none;
+}
+
+.button-text {
+    position: absolute;
+    color: black;
+    font-weight: 900;
+    transform: translate(-50%,-400%); 
+    z-index: 2;
+    user-select: none;
+}
+

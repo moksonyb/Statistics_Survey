@@ -21,7 +21,7 @@ def create_table():
     conn = create_connection(DATABASE)
     if conn:
         try:
-            sql_create_survey_table = """ CREATE TABLE IF NOT EXISTS survey (
+            sql_create_survey_table = """ CREATE TABLE IF NOT EXISTS     (
                                             student_number text PRIMARY KEY,
                                             click_count integer NOT NULL,
                                             button_type text NOT NULL
@@ -40,9 +40,9 @@ def index():
 @app.route('/start', methods=['POST'])
 def start_survey():
     data = request.get_json()
-    student_number = data.get('studentNumber')
-    if not (student_number.startswith('i') and student_number[1:].isdigit()):
-        return jsonify(success=False, message="Your student number should start with an I and contain 6 numbers")
+    student_number = data.get('studentNumber').lower()
+    if not (student_number.startswith('i') and student_number[1:].isdigit() and len(student_number) == 8):
+        return jsonify(success=False, message="Your student number should start with an I and contain 7 numbers")
     conn = create_connection(DATABASE)
     if conn:
         cursor = conn.cursor()
@@ -81,4 +81,4 @@ def handle_click():
 
 if __name__ == '__main__':
     create_table()
-    app.run(host="0.0.0.0", port=6000, debug=False)
+    app.run(debug=False)

@@ -13,16 +13,19 @@
             <input type="text" id="student-number" name="student-number" required>
             <button type="submit">Submit</button>
         </form>
-        <div id="survey" style="display: none;">
-            <button id="red-button" class="red-button" onclick="handleButtonClick()">BUTTON</button>
-            <p id="message"></p>
+    </div>
+    <div id="survey" style="display: none;">
+        <div id="red-button" class="red-button" onclick="handleButtonClick()">
+            <span class="button-text">BUTTON</span>
         </div>
+        <p id="message"></p>
     </div>
     <script>
         const form = document.getElementById('student-form');
         const survey = document.getElementById('survey');
         const redButton = document.getElementById('red-button');
         const message = document.getElementById('message');
+        const container = document.querySelector('.container'); // Added container element reference
         let studentNumber;
         let clickCount = 0;
         let timerStarted = false;
@@ -40,8 +43,10 @@
             });
             const result = await response.json();
             if (result.success) {
-                redButton.textContent = result.buttonType === "PRESS" ? "PRESS THE BIG RED BUTTON" : "DON'T PRESS THE BIG RED BUTTON";
+                const buttonText = result.buttonType === "PRESS" ? "PRESS THE BIG RED BUTTON" : "DON'T PRESS THE BIG RED BUTTON";
+                redButton.querySelector('.button-text').textContent = buttonText;
                 form.style.display = 'none';
+                container.style.display = 'none'; // Hide the container
                 survey.style.display = 'block';
             } else {
                 alert(result.message);
@@ -70,7 +75,7 @@
         }
 
         function endSurvey() {
-            redButton.disabled = true;
+            redButton.classList.add('disabled');
             message.textContent += ' Survey ended.';
         }
     </script>
